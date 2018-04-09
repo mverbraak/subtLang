@@ -5,11 +5,6 @@
  */
 package subtlang;
 
-/**
- *
- * @author Martijn
- */
-
 import org.knallgrau.utils.textcat.TextCategorizer;
 
 public class SubtLang {

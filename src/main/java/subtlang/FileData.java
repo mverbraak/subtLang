@@ -46,26 +46,33 @@ public class FileData {
         }
 
         //Ask for the directory to process
-        Scanner user_input = new Scanner(System.in);
+        Scanner user_input = null;
         String approval = "";
         Path directory = null;
-        while (!approval.equals("Y") && !approval.equals("y")) {
-            System.out.print("Input directory: ");
-            directory = Paths.get(user_input.nextLine().replaceAll("^\"|\"$", ""));
-            while (!Files.isDirectory(directory)) {
-                System.out.print("Input is not a directory, try again: ");
+        try{
+            user_input = new Scanner(System.in);
+            while (!approval.equals("Y") && !approval.equals("y")) {
+                System.out.print("Input directory: ");
                 directory = Paths.get(user_input.nextLine().replaceAll("^\"|\"$", ""));
+                while (!Files.isDirectory(directory)) {
+                    System.out.print("Input is not a directory, try again: ");
+                    directory = Paths.get(user_input.nextLine().replaceAll("^\"|\"$", ""));
+                }
+                System.out.println("You typed: " + directory);
+                System.out.println("Is this correct? Y/N");
+                approval = user_input.nextLine();
             }
-            System.out.println("You typed: " + directory);
-            System.out.println("Is this correct? Y/N");
-            approval = user_input.nextLine();
+        }
+        finally {
+            if(user_input!=null)
+                user_input.close();
         }
 
-        //Retrieve the list of files to process selected and filtered by the 
-        //class FileList
-        FileList file_list = new FileList();
-        List<Path> file_names = file_list.makeList(directory, replace);
-        file_list.getCount();
+            //Retrieve the list of files to process selected and filtered by the 
+            //class FileList
+            FileList file_list = new FileList();
+            List<Path> file_names = file_list.makeList(directory, replace);
+            file_list.getCount();
 
         //Print this list
         System.out.println();
